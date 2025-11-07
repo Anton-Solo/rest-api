@@ -1,11 +1,10 @@
 import 'dotenv/config';
-import http from 'node:http';
 import { AddressInfo } from 'node:net';
-import { handleRequest } from './router.js';
+import { createServer } from './server.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
 
-const server = http.createServer(handleRequest);
+const server = createServer();
 
 server.listen(PORT, () => {
   const address = server.address() as AddressInfo | null;

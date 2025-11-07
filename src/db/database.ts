@@ -27,6 +27,10 @@ class InMemoryDatabase {
   async deleteUser(id: string): Promise<boolean> {
     return this.users.delete(id);
   }
+
+  clear(): void {
+    this.users.clear();
+  }
 }
 
 export const db = new InMemoryDatabase();
