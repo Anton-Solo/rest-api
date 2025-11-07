@@ -5,21 +5,22 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
+    "start:dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start:prod": "npm run build && node dist/index.js",
     "build": "tsc --project tsconfig.json",
-    "start": "node dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "dev": "npm run start:dev"
   },
   "engines": {
     "node": ">=24.10.0"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.11.19",
-    "@types/uuid": "^9.0.7",
+    "@types/node": "^22.19.0",
+    "@types/uuid": "^9.0.8",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.6.3"
+    "typescript": "^5.9.3"
   }
 }
-
