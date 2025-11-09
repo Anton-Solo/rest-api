@@ -1,0 +1,200 @@
+{
+  "info": {
+    "name": "REST API - CRUD Users",
+    "description": "Collection for testing CRUD operations on Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. GET All Users (Empty)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "2. POST Create User 1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"John Doe\",\n  \"age\": 30,\n  \"hobbies\": [\"reading\", \"gaming\", \"coding\"]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "3. POST Create User 2",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"Jane Smith\",\n  \"age\": 25,\n  \"hobbies\": [\"painting\", \"music\"]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "4. GET All Users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "5. GET User by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users/{{userId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "{{userId}}"]
+        }
+      }
+    },
+    {
+      "name": "6. PUT Update User",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"John Updated\",\n  \"age\": 31,\n  \"hobbies\": [\"reading\", \"gaming\", \"coding\", \"swimming\"]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/users/{{userId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "{{userId}}"]
+        }
+      }
+    },
+    {
+      "name": "7. DELETE User",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users/{{userId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "{{userId}}"]
+        }
+      }
+    },
+    {
+      "name": "8. GET Deleted User (404)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users/{{userId}}",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "{{userId}}"]
+        }
+      }
+    },
+    {
+      "name": "9. POST Invalid User (Missing Fields)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"Test User\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4000/api/users",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users"]
+        }
+      }
+    },
+    {
+      "name": "10. GET Invalid UUID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/users/invalid-uuid-123",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "users", "invalid-uuid-123"]
+        }
+      }
+    },
+    {
+      "name": "11. GET Non-existing Endpoint",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:4000/api/non-existing",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "non-existing"]
+        }
+      }
+    }
+  ]
+}
+
