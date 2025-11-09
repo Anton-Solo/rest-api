@@ -15,13 +15,30 @@ Simple CRUD API built with Node.js and TypeScript, featuring in-memory storage a
 
 ## Requirements
 
-- Node.js >= 24.10.0
+- Node.js >= 24.10.0 (recommended) or >= 22.0.0
 - npm
 
 ## Installation
 
+1. Clone the repository:
+```bash
+git clone https://github.com/Anton-Solo/rest-api.git
+cd rest-api
+```
+
+2. Install dependencies:
 ```bash
 npm install
+```
+
+3. Create `.env` file (optional, default PORT is 4000):
+```bash
+cp .env.example .env
+```
+
+Edit `.env` if you want to change the port:
+```env
+PORT=4000
 ```
 
 ## Available Scripts
@@ -180,7 +197,9 @@ src/
 
 ## Testing
 
-The project includes comprehensive test coverage:
+### Automated Tests
+
+The project includes comprehensive test coverage with Jest and Supertest:
 
 - **Scenario 1:** Complete CRUD flow (create → read → update → delete)
 - **Scenario 2:** Validation tests (invalid UUID, missing fields, wrong types)
@@ -190,6 +209,121 @@ The project includes comprehensive test coverage:
 Run tests:
 ```bash
 npm test
+```
+
+**Expected output:**
+```
+Test Suites: 1 passed, 1 total
+Tests:       10 passed, 10 total
+```
+
+### Manual Testing with Postman
+
+#### Option 1: Import Postman Collection
+
+1. Open Postman
+2. Click **Import** button (top left)
+3. Select the `postman_collection.json` file from the project root
+4. The collection "REST API - CRUD Users" will appear in your workspace
+
+#### Option 2: Manual API Testing
+
+**Prerequisites:**
+- Start the server: `npm run start:dev`
+- Server will run on `http://localhost:4000`
+
+**Test Sequence:**
+
+1. **GET all users (empty array)**
+   ```
+   GET http://localhost:4000/api/users
+   Expected: 200 OK, []
+   ```
+
+2. **Create a user**
+   ```
+   POST http://localhost:4000/api/users
+   Headers: Content-Type: application/json
+   Body:
+   {
+     "username": "John Doe",
+     "age": 30,
+     "hobbies": ["reading", "gaming"]
+   }
+   Expected: 201 Created
+   Response: { "id": "uuid-here", "username": "John Doe", ... }
+   ```
+   **⚠️ Important:** Copy the `id` from the response for next requests!
+
+3. **Get user by ID**
+   ```
+   GET http://localhost:4000/api/users/{id}
+   Replace {id} with the UUID from step 2
+   Expected: 200 OK
+   ```
+
+4. **Update user**
+   ```
+   PUT http://localhost:4000/api/users/{id}
+   Headers: Content-Type: application/json
+   Body:
+   {
+     "username": "Jane Doe",
+     "age": 25,
+     "hobbies": ["painting"]
+   }
+   Expected: 200 OK
+   ```
+
+5. **Delete user**
+   ```
+   DELETE http://localhost:4000/api/users/{id}
+   Expected: 204 No Content
+   ```
+
+6. **Verify deletion**
+   ```
+   GET http://localhost:4000/api/users/{id}
+   Expected: 404 Not Found
+   ```
+
+#### Using Postman Variables
+
+To avoid manually copying UUIDs:
+
+1. Create a new Environment in Postman
+2. Add a variable: `userId`
+3. In the POST request, go to **Tests** tab and add:
+   ```javascript
+   var jsonData = pm.response.json();
+   pm.environment.set("userId", jsonData.id);
+   ```
+4. Use `{{userId}}` in subsequent requests instead of hardcoded IDs
+
+### Manual Testing with cURL
+
+```bash
+# 1. Get all users
+curl http://localhost:4000/api/users
+
+# 2. Create a user
+curl -X POST http://localhost:4000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"username":"John Doe","age":30,"hobbies":["reading"]}'
+
+# 3. Get user by ID (replace UUID with actual ID from step 2)
+curl http://localhost:4000/api/users/YOUR-UUID-HERE
+
+# 4. Update user
+curl -X PUT http://localhost:4000/api/users/YOUR-UUID-HERE \
+  -H "Content-Type: application/json" \
+  -d '{"username":"Jane Doe","age":25,"hobbies":["painting"]}'
+
+# 5. Delete user
+curl -X DELETE http://localhost:4000/api/users/YOUR-UUID-HERE
+
+# 6. Verify deletion (should return 404)
+curl http://localhost:4000/api/users/YOUR-UUID-HERE
 ```
 
 ## Error Handling
@@ -203,17 +337,43 @@ The API returns appropriate HTTP status codes:
 - `404 Not Found` - Resource not found or invalid endpoint
 - `500 Internal Server Error` - Server-side errors
 
-## Development
+## Troubleshooting
 
-Built with:
-- **Node.js** - Runtime environment
-- **TypeScript** - Type-safe JavaScript
-- **Jest** - Testing framework
-- **Supertest** - HTTP testing
-- **uuid** - UUID generation
-- **dotenv** - Environment variables
+### Port Already in Use
 
-## License
+If you get an error that port 4000 is already in use:
 
-ISC
+```bash
+# Find and kill the process using port 4000
+lsof -ti:4000 | xargs kill -9
+
+# Or change the port in .env file
+PORT=3000
+```
+
+### Tests Failing
+
+Make sure no server is running when executing tests:
+
+```bash
+# Kill any running servers
+pkill -f "tsx watch"
+pkill -f "node dist"
+
+# Then run tests
+npm test
+```
+
+### Module Not Found Errors
+
+```bash
+# Clean install
+rm -rf node_modules package-lock.json
+npm install
+```
+## Project Highlights
+
+
+
+
 
